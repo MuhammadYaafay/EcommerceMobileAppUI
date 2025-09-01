@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Home, Search, ShoppingCart, Heart, User } from 'lucide-react-native';
+import { Chrome as Home, Search, ShoppingCart, Heart, User } from 'lucide-react-native';
 import * as Animatable from 'react-native-animatable';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useSelector } from 'react-redux';
