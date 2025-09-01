@@ -44,8 +44,8 @@ export default function AdminScreen() {
     name: '',
     price: '',
     description: '',
-    category: 'Electronics',
-    image: 'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg',
+    category: 'Sofas',
+    image: 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg',
   });
 
   const filteredProducts = products.filter(product =>
@@ -95,8 +95,8 @@ export default function AdminScreen() {
       name: '',
       price: '',
       description: '',
-      category: 'Electronics',
-      image: 'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg',
+      category: 'Sofas',
+      image: 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg',
     });
 
     Toast.show({
@@ -145,8 +145,8 @@ export default function AdminScreen() {
       name: '',
       price: '',
       description: '',
-      category: 'Electronics',
-      image: 'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg',
+      category: 'Sofas',
+      image: 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg',
     });
 
     Toast.show({
@@ -294,8 +294,8 @@ export default function AdminScreen() {
                 name: '',
                 price: '',
                 description: '',
-                category: 'Electronics',
-                image: 'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg',
+                category: 'Sofas',
+                image: 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg',
               });
             }}>
               <X size={24} color={theme.colors.text} />
@@ -352,7 +352,7 @@ export default function AdminScreen() {
             <View style={styles.inputGroup}>
               <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Category</Text>
               <View style={styles.categoryButtons}>
-                {['Electronics', 'Wearables', 'Accessories', 'Fashion', 'Home'].map((category) => (
+                {['Sofas', 'Beds', 'Chairs', 'Tables', 'Storage', 'Decor'].map((category) => (
                   <TouchableOpacity
                     key={category}
                     onPress={() => setNewProduct({ ...newProduct, category })}
@@ -383,7 +383,7 @@ export default function AdminScreen() {
               <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Image URL</Text>
               <TextInput
                 style={[styles.input, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border, color: theme.colors.text }]}
-                placeholder="https://example.com/image.jpg"
+                placeholder="https://images.pexels.com/photos/furniture.jpg"
                 placeholderTextColor={theme.colors.textSecondary}
                 value={newProduct.image}
                 onChangeText={(text) => setNewProduct({ ...newProduct, image: text })}

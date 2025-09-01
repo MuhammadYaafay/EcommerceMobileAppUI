@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import * as Animatable from 'react-native-animatable';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -27,37 +28,63 @@ export default function AuthIndex() {
   }
 
   return (
-    <LinearGradient
-      colors={[theme.colors.gradient.start, theme.colors.gradient.end]}
-      style={styles.container}
-    >
+    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
       <SafeAreaView style={styles.safeArea}>
-        <View style={styles.content}>
-          <View style={styles.header}>
-            <Text style={styles.title}>Welcome to ShopApp</Text>
-            <Text style={styles.subtitle}>
-              Discover amazing products and enjoy seamless shopping experience
+        <Animatable.View animation="fadeInUp" duration={1000} style={styles.content}>
+          {/* Hero Image */}
+          <Animatable.View animation="fadeInDown" duration={1200} delay={300} style={styles.heroContainer}>
+            <Image
+              source={{ uri: 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg' }}
+              style={styles.heroImage}
+            />
+            <LinearGradient
+              colors={['transparent', 'rgba(0,0,0,0.3)']}
+              style={styles.heroOverlay}
+            />
+          </Animatable.View>
+
+          <View style={styles.textContainer}>
+            <Animatable.Text 
+              animation="fadeInUp" 
+              duration={1000} 
+              delay={600}
+              style={[styles.title, { color: theme.colors.text }]}
+            >
+              Transform Your Space
+            </Animatable.Text>
+            <Animatable.Text 
+              animation="fadeInUp" 
+              duration={1000} 
+              delay={800}
+              style={[styles.subtitle, { color: theme.colors.textSecondary }]}
+            >
+              Discover premium furniture with AR preview technology
             </Text>
           </View>
 
-          <View style={styles.buttonContainer}>
+          <Animatable.View 
+            animation="fadeInUp" 
+            duration={1000} 
+            delay={1000}
+            style={styles.buttonContainer}
+          >
             <TouchableOpacity
-              style={[styles.button, styles.primaryButton]}
+              style={[styles.button, styles.primaryButton, { backgroundColor: theme.colors.primary }]}
               onPress={() => router.push('/auth/login')}
             >
-              <Text style={styles.primaryButtonText}>Sign In</Text>
+              <Text style={[styles.primaryButtonText, { color: '#fff' }]}>Sign In</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={[styles.button, styles.secondaryButton]}
+              style={[styles.button, styles.secondaryButton, { borderColor: theme.colors.border, backgroundColor: theme.colors.surface }]}
               onPress={() => router.push('/auth/register')}
             >
-              <Text style={styles.secondaryButtonText}>Create Account</Text>
+              <Text style={[styles.secondaryButtonText, { color: theme.colors.text }]}>Create Account</Text>
             </TouchableOpacity>
-          </View>
-        </View>
+          </Animatable.View>
+        </Animatable.View>
       </SafeAreaView>
-    </LinearGradient>
+    </View>
   );
 }
 
@@ -70,38 +97,80 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 24,
+    paddingVertical: 40,
   },
-  header: {
+  heroContainer: {
+    height: height * 0.4,
+    borderRadius: 20,
+    overflow: 'hidden',
+    marginBottom: 40,
+    position: 'relative',
+  },
+  heroImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  heroOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '50%',
+  },
+  textContainer: {
     alignItems: 'center',
-    marginBottom: 60,
+    marginBottom: 40,
   },
   title: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: '800',
-    color: '#fff',
     textAlign: 'center',
     marginBottom: 16,
+    lineHeight: 42,
   },
   subtitle: {
-    fontSize: 16,
-    color: '#fff',
+    fontSize: 18,
     textAlign: 'center',
-    opacity: 0.9,
-    lineHeight: 24,
+    lineHeight: 26,
+    paddingHorizontal: 20,
   },
   buttonContainer: {
     gap: 16,
   },
   button: {
-    paddingVertical: 16,
+    paddingVertical: 18,
     paddingHorizontal: 24,
-    borderRadius: 12,
+    borderRadius: 16,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
   },
   primaryButton: {
-    backgroundColor: '#fff',
+    // backgroundColor handled in component
+  },
+  secondaryButton: {
+    borderWidth: 2,
+  },
+  primaryButtonText: {
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  secondaryButtonText: {
+    fontSize: 16,
+    fontWeight: '700',
+  },
+  loadingText: {
+    fontSize: 16,
+    textAlign: 'center',
+  },
+});
+
   },
   secondaryButton: {
     backgroundColor: 'transparent',

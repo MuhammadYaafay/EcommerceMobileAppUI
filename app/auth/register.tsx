@@ -9,10 +9,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 import { ArrowLeft, Eye, EyeOff } from 'lucide-react-native';
+import * as Animatable from 'react-native-animatable';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { Formik } from 'formik';
@@ -58,18 +60,26 @@ export default function RegisterScreen() {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Header */}
-          <View style={styles.header}>
+          <Animatable.View animation="fadeInDown" duration={800} style={styles.header}>
             <TouchableOpacity
               onPress={() => router.back()}
               style={[styles.backButton, { backgroundColor: theme.colors.surface }]}
             >
               <ArrowLeft size={24} color={theme.colors.text} />
             </TouchableOpacity>
+            
+            <View style={styles.logoContainer}>
+              <Image
+                source={{ uri: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg' }}
+                style={styles.logoImage}
+              />
+            </View>
+            
             <Text style={[styles.title, { color: theme.colors.text }]}>Create Account</Text>
             <Text style={[styles.subtitle, { color: theme.colors.textSecondary }]}>
-              Join us and start shopping
+              Join us and transform your space
             </Text>
-          </View>
+          </Animatable.View>
 
           {/* Form */}
           <Formik
@@ -78,7 +88,7 @@ export default function RegisterScreen() {
             onSubmit={handleRegister}
           >
             {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-              <View style={styles.form}>
+              <Animatable.View animation="fadeInUp" duration={800} delay={400} style={styles.form}>
                 <View style={styles.inputContainer}>
                   <Text style={[styles.label, { color: theme.colors.text }]}>Full Name</Text>
                   <TextInput
@@ -225,7 +235,7 @@ export default function RegisterScreen() {
                     </Text>
                   </TouchableOpacity>
                 </View>
-              </View>
+              </Animatable.View>
             )}
           </Formik>
         </ScrollView>
@@ -244,44 +254,72 @@ const styles = StyleSheet.create({
   header: {
     padding: 24,
     alignItems: 'center',
+    paddingTop: 40,
+  },
+  logoContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    overflow: 'hidden',
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  logoImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
   },
   backButton: {
     position: 'absolute',
     left: 24,
-    top: 24,
+    top: 40,
     width: 40,
     height: 40,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32,
     fontWeight: '800',
     marginBottom: 8,
-    marginTop: 40,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 18,
     textAlign: 'center',
   },
   form: {
     padding: 24,
+    paddingTop: 32,
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 24,
   },
   label: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
-    marginBottom: 8,
+    marginBottom: 12,
   },
   input: {
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: 16,
     paddingHorizontal: 16,
-    paddingVertical: 14,
-    fontSize: 16,
+    paddingVertical: 18,
+    fontSize: 18,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+    elevation: 2,
   },
   passwordContainer: {
     position: 'relative',
@@ -292,21 +330,26 @@ const styles = StyleSheet.create({
   eyeButton: {
     position: 'absolute',
     right: 16,
-    top: 14,
+    top: 18,
     padding: 4,
   },
   errorText: {
-    fontSize: 14,
+    fontSize: 16,
     marginTop: 4,
   },
   registerButton: {
-    paddingVertical: 16,
-    borderRadius: 12,
+    paddingVertical: 18,
+    borderRadius: 16,
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 32,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
   },
   registerButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
     color: '#fff',
   },
@@ -314,13 +357,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 24,
+    marginTop: 32,
   },
   footerText: {
-    fontSize: 16,
+    fontSize: 18,
   },
   linkText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
   },
 });

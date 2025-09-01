@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router';
 import { Home, Search, ShoppingCart, Heart, User } from 'lucide-react-native';
+import * as Animatable from 'react-native-animatable';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store/store';
@@ -32,40 +33,56 @@ export default function TabLayout() {
           backgroundColor: theme.colors.surface,
           borderTopColor: theme.colors.border,
           borderTopWidth: 1,
-          height: 60,
-          paddingBottom: 8,
-          paddingTop: 8,
+          height: 70,
+          paddingBottom: 12,
+          paddingTop: 12,
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -4 },
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+          elevation: 8,
         },
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.textSecondary,
         tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '500',
+          fontSize: 13,
+          fontWeight: '600',
+          marginTop: 4,
         },
       }}>
       <Tabs.Screen
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Animatable.View animation={focused ? 'pulse' : undefined} duration={300}>
+              <Home color={color} size={focused ? size + 2 : size} />
+            </Animatable.View>
+          ),
         }}
       />
       <Tabs.Screen
         name="search"
         options={{
           title: 'Search',
-          tabBarIcon: ({ color, size }) => <Search color={color} size={size} />,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Animatable.View animation={focused ? 'pulse' : undefined} duration={300}>
+              <Search color={color} size={focused ? size + 2 : size} />
+            </Animatable.View>
+          ),
         }}
       />
       <Tabs.Screen
         name="cart"
         options={{
           title: 'Cart',
-          tabBarIcon: ({ color, size }) => (
-            <View>
-              <ShoppingCart color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Animatable.View animation={focused ? 'pulse' : undefined} duration={300}>
+              <ShoppingCart color={color} size={focused ? size + 2 : size} />
               <TabBarBadge count={cartItemCount} />
-            </View>
+            </Animatable.View>
           ),
         }}
       />
@@ -73,11 +90,11 @@ export default function TabLayout() {
         name="wishlist"
         options={{
           title: 'Wishlist',
-          tabBarIcon: ({ color, size }) => (
-            <View>
-              <Heart color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Animatable.View animation={focused ? 'pulse' : undefined} duration={300}>
+              <Heart color={color} size={focused ? size + 2 : size} />
               <TabBarBadge count={wishlistItemCount} />
-            </View>
+            </Animatable.View>
           ),
         }}
       />
@@ -85,7 +102,11 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color, size }) => <User color={color} size={size} />,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Animatable.View animation={focused ? 'pulse' : undefined} duration={300}>
+              <User color={color} size={focused ? size + 2 : size} />
+            </Animatable.View>
+          ),
         }}
       />
     </Tabs>
@@ -95,17 +116,22 @@ export default function TabLayout() {
 const styles = StyleSheet.create({
   badge: {
     position: 'absolute',
-    right: -8,
-    top: -4,
-    minWidth: 18,
-    height: 18,
-    borderRadius: 9,
+    right: -10,
+    top: -6,
+    minWidth: 20,
+    height: 20,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
   },
   badgeText: {
-    fontSize: 10,
+    fontSize: 11,
     fontWeight: '600',
     textAlign: 'center',
   },

@@ -9,6 +9,7 @@ import {
   Image,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as Animatable from 'react-native-animatable';
 import { router } from 'expo-router';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -48,34 +49,59 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <Animatable.ScrollView 
+        animation="fadeIn" 
+        duration={800}
+        showsVerticalScrollIndicator={false}
+      >
         {/* Header */}
-        <View style={styles.header}>
-          <Text style={[styles.welcomeText, { color: theme.colors.textSecondary }]}>
-            Welcome back,
-          </Text>
-          <Text style={[styles.nameText, { color: theme.colors.text }]}>
-            {user.name}
-          </Text>
-        </View>
+        <Animatable.View animation="fadeInDown" duration={1000} style={styles.header}>
+          <View style={styles.headerContent}>
+            <View>
+              <Text style={[styles.welcomeText, { color: theme.colors.textSecondary }]}>
+                Welcome back,
+              </Text>
+              <Text style={[styles.nameText, { color: theme.colors.text }]}>
+                {user.name}
+              </Text>
+            </View>
+            <View style={[styles.profileAvatar, { backgroundColor: theme.colors.surface }]}>
+              <Text style={[styles.avatarText, { color: theme.colors.primary }]}>
+                {user.name.charAt(0).toUpperCase()}
+              </Text>
+            </View>
+          </View>
+        </Animatable.View>
 
         {/* Hero Banner */}
         <HeroBanner />
 
         {/* Categories */}
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
-            Categories
-          </Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
+        <Animatable.View animation="fadeInLeft" duration={1000} delay={400} style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
+              Shop by Category
+            </Text>
+            <TouchableOpacity onPress={() => router.push('/search')}>
+              <Text style={[styles.seeAllText, { color: theme.colors.primary }]}>
+                View All
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false} 
+            style={styles.horizontalScroll}
+            contentContainerStyle={styles.categoriesContent}
+          >
             {categories.map((category, index) => (
               <CategoryCard key={index} category={category} />
             ))}
           </ScrollView>
-        </View>
+        </Animatable.View>
 
         {/* Featured Products */}
-        <View style={styles.section}>
+        <Animatable.View animation="fadeInRight" duration={1000} delay={600} style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
               Featured Products
@@ -86,35 +112,44 @@ export default function HomeScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontalScroll}>
+          <ScrollView 
+            horizontal 
+            showsHorizontalScrollIndicator={false} 
+            style={styles.horizontalScroll}
+            contentContainerStyle={styles.productsContent}
+          >
             {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </ScrollView>
-        </View>
+        </Animatable.View>
 
         {/* Deals Section */}
-        <View style={styles.section}>
-          <LinearGradient
-            colors={[theme.colors.primary, theme.colors.accent]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.dealsBanner}
-          >
-            <Text style={styles.dealsBannerTitle}>Flash Sale</Text>
-            <Text style={styles.dealsBannerSubtitle}>Up to 50% off on selected items</Text>
-            <TouchableOpacity
-              style={styles.dealsButton}
-              onPress={() => router.push('/search')}
+        <Animatable.View animation="fadeInUp" duration={1000} delay={800} style={styles.section}>
+          <View style={[styles.dealsBanner, { backgroundColor: theme.colors.surface }]}>
+            <Image
+              source={{ uri: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg' }}
+              style={styles.dealsImage}
+            />
+            <LinearGradient
+              colors={[theme.colors.gradient.start, theme.colors.gradient.end]}
+              style={styles.dealsOverlay}
             >
-              <Text style={styles.dealsButtonText}>Shop Now</Text>
-            </TouchableOpacity>
-          </LinearGradient>
-        </View>
+              <Text style={styles.dealsBannerTitle}>Winter Sale</Text>
+              <Text style={styles.dealsBannerSubtitle}>Up to 40% off on bedroom furniture</Text>
+              <TouchableOpacity
+                style={styles.dealsButton}
+                onPress={() => router.push('/search')}
+              >
+                <Text style={styles.dealsButtonText}>Shop Sale</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+        </Animatable.View>
 
         {/* Admin Quick Access */}
         {user.role === 'admin' && (
-          <View style={styles.section}>
+          <Animatable.View animation="fadeInUp" duration={1000} delay={1000} style={styles.section}>
             <TouchableOpacity
               style={[styles.adminButton, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
               onPress={() => router.push('/admin')}
@@ -123,9 +158,9 @@ export default function HomeScreen() {
                 Admin Panel
               </Text>
             </TouchableOpacity>
-          </View>
+          </Animatable.View>
         )}
-      </ScrollView>
+      </Animatable.ScrollView>
     </SafeAreaView>
   );
 }
@@ -144,78 +179,144 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   header: {
-    padding: 20,
-    paddingBottom: 10,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   welcomeText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '400',
   },
   nameText: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: '700',
     marginTop: 2,
   },
+  profileAvatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  avatarText: {
+    fontSize: 20,
+    fontWeight: '700',
+  },
   section: {
     paddingHorizontal: 20,
-    marginBottom: 30,
+    marginBottom: 32,
   },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: '700',
   },
   seeAllText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '600',
   },
   horizontalScroll: {
     marginHorizontal: -20,
     paddingHorizontal: 20,
   },
+  categoriesContent: {
+    paddingRight: 20,
+  },
+  productsContent: {
+    paddingRight: 20,
+  },
   dealsBanner: {
-    padding: 24,
-    borderRadius: 16,
+    height: 200,
+    borderRadius: 24,
+    overflow: 'hidden',
+    position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  dealsImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+    position: 'absolute',
+  },
+  dealsOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
     alignItems: 'center',
+    padding: 24,
   },
   dealsBannerTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: '800',
     color: '#fff',
     textAlign: 'center',
+    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
   },
   dealsBannerSubtitle: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#fff',
     textAlign: 'center',
     marginTop: 8,
     opacity: 0.9,
+    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   dealsButton: {
     backgroundColor: '#fff',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 25,
+    paddingHorizontal: 28,
+    paddingVertical: 14,
+    borderRadius: 30,
     marginTop: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
   },
   dealsButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
-    color: '#000',
+    color: '#8b5a3c',
   },
   adminButton: {
-    padding: 16,
-    borderRadius: 12,
+    padding: 20,
+    borderRadius: 16,
     borderWidth: 2,
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 3,
   },
   adminButtonText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '600',
   },
 });

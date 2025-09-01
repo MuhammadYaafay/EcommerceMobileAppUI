@@ -10,12 +10,31 @@ interface CategoryCardProps {
   category: string;
 }
 
-const categoryColors: Record<string, string[]> = {
-  Electronics: ['#3b82f6', '#1d4ed8'],
-  Wearables: ['#10b981', '#059669'],
-  Accessories: ['#f59e0b', '#d97706'],
-  Fashion: ['#ec4899', '#be185d'],
-  Home: ['#8b5cf6', '#7c3aed'],
+const categoryData: Record<string, { colors: string[]; image: string }> = {
+  Sofas: { 
+    colors: ['#8b5a3c', '#6b4423'], 
+    image: 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg' 
+  },
+  Beds: { 
+    colors: ['#4f46e5', '#3730a3'], 
+    image: 'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg' 
+  },
+  Chairs: { 
+    colors: ['#059669', '#047857'], 
+    image: 'https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg' 
+  },
+  Tables: { 
+    colors: ['#dc2626', '#b91c1c'], 
+    image: 'https://images.pexels.com/photos/1395967/pexels-photo-1395967.jpeg' 
+  },
+  Storage: { 
+    colors: ['#7c3aed', '#6d28d9'], 
+    image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg' 
+  },
+  Decor: { 
+    colors: ['#ea580c', '#c2410c'], 
+    image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg' 
+  },
 };
 
 export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
@@ -27,19 +46,26 @@ export const CategoryCard: React.FC<CategoryCardProps> = ({ category }) => {
     router.push('/search');
   };
 
-  const colors = categoryColors[category] || [theme.colors.primary, theme.colors.accent];
+  const categoryInfo = categoryData[category] || { 
+    colors: [theme.colors.primary, theme.colors.accent],
+    image: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg'
+  };
 
   return (
-    <TouchableOpacity onPress={handlePress} style={styles.container}>
-      <LinearGradient
-        colors={colors}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.card}
-      >
-        <Text style={styles.title}>{category}</Text>
-      </LinearGradient>
-    </TouchableOpacity>
+    <Animatable.View animation="fadeInRight" duration={800} delay={200}>
+      <TouchableOpacity onPress={handlePress} style={styles.container}>
+        <View style={styles.card}>
+          <Image source={{ uri: categoryInfo.image }} style={styles.categoryImage} />
+          <LinearGradient
+            colors={['transparent', 'rgba(0,0,0,0.6)']}
+            style={styles.overlay}
+          />
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>{category}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    </Animatable.View>
   );
 };
 
@@ -48,17 +74,45 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   card: {
-    width: 120,
-    height: 80,
-    borderRadius: 16,
+    width: 140,
+    height: 100,
+    borderRadius: 20,
+    overflow: 'hidden',
+    position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  categoryImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  textContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 12,
   },
   title: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '700',
     color: '#fff',
     textAlign: 'center',
+    textShadowColor: 'rgba(0,0,0,0.5)',
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
 });

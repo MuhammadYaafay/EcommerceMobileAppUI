@@ -19,12 +19,14 @@ import {
   Plus,
   Minus
 } from 'lucide-react-native';
+import * as Animatable from 'react-native-animatable';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
 import { addToCart } from '@/store/slices/cartSlice';
 import { addToWishlist, removeFromWishlist } from '@/store/slices/wishlistSlice';
+import { ARPreviewButton } from '@/components/ARPreviewButton';
 import Toast from 'react-native-toast-message';
 
 const { width } = Dimensions.get('window');
@@ -130,7 +132,7 @@ export default function ProductDetailScreen() {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Product Images */}
-        <View style={styles.imageContainer}>
+        <Animatable.View animation="fadeIn" duration={800} style={styles.imageContainer}>
           <FlatList
             ref={imageScrollRef}
             data={product.images}
@@ -172,10 +174,10 @@ export default function ProductDetailScreen() {
               </Text>
             </View>
           )}
-        </View>
+        </Animatable.View>
 
         {/* Product Info */}
-        <View style={styles.productInfo}>
+        <Animatable.View animation="fadeInUp" duration={800} delay={300} style={styles.productInfo}>
           <Text style={[styles.productName, { color: theme.colors.text }]}>
             {product.name}
           </Text>
@@ -314,17 +316,28 @@ export default function ProductDetailScreen() {
       </ScrollView>
 
       {/* Bottom Actions */}
-      <View style={[styles.bottomActions, { backgroundColor: theme.colors.background, borderColor: theme.colors.border }]}>
-        <TouchableOpacity
-          onPress={handleWishlistToggle}
-          style={[styles.wishlistAction, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
-        >
-          <Heart
-            size={24}
-            color={isInWishlist ? theme.colors.accent : theme.colors.text}
-            fill={isInWishlist ? theme.colors.accent : 'transparent'}
-          />
-        </TouchableOpacity>
+      <Animatable.View 
+        animation="fadeInUp" 
+        duration={800} 
+        delay={500}
+        style={[styles.bottomActions, { backgroundColor: theme.colors.background, borderColor: theme.colors.border }]}
+      >
+        <View style={styles.actionRow}>
+          <TouchableOpacity
+            onPress={handleWishlistToggle}
+            style={[styles.wishlistAction, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border }]}
+          >
+            <Heart
+              size={24}
+              color={isInWishlist ? theme.colors.accent : theme.colors.text}
+              fill={isInWishlist ? theme.colors.accent : 'transparent'}
+            />
+          </TouchableOpacity>
+          
+          <View style={styles.arPreviewContainer}>
+            <ARPreviewButton productName={product.name} />
+          </View>
+        </View>
         
         <TouchableOpacity
           onPress={handleAddToCart}
@@ -333,7 +346,7 @@ export default function ProductDetailScreen() {
           <ShoppingCart size={20} color="#fff" />
           <Text style={styles.addToCartText}>Add to Cart</Text>
         </TouchableOpacity>
-      </View>
+      </Animatable.View>
     </SafeAreaView>
   );
 }
@@ -524,11 +537,15 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   bottomActions: {
-    flexDirection: 'row',
     paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingVertical: 20,
     borderTopWidth: 1,
-    gap: 12,
+    gap: 16,
+  },
+  actionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
   },
   wishlistAction: {
     width: 56,
@@ -537,18 +554,30 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  arPreviewContainer: {
+    flex: 1,
   },
   addToCartAction: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     height: 56,
     borderRadius: 28,
     gap: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 5,
   },
   addToCartText: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
     color: '#fff',
   },

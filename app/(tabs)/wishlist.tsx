@@ -58,13 +58,13 @@ export default function WishlistScreen() {
             Your wishlist is empty
           </Text>
           <Text style={[styles.emptySubtitle, { color: theme.colors.textSecondary }]}>
-            Save items you love to your wishlist
+            Save furniture pieces you love to your wishlist
           </Text>
           <TouchableOpacity
             style={[styles.shopButton, { backgroundColor: theme.colors.primary }]}
             onPress={() => router.push('/search')}
           >
-            <Text style={styles.shopButtonText}>Explore Products</Text>
+            <Text style={styles.shopButtonText}>Explore Furniture</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

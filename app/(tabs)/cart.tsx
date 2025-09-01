@@ -61,13 +61,13 @@ export default function CartScreen() {
             Your cart is empty
           </Text>
           <Text style={[styles.emptySubtitle, { color: theme.colors.textSecondary }]}>
-            Add some products to get started
+            Add some furniture to get started
           </Text>
           <TouchableOpacity
             style={[styles.shopButton, { backgroundColor: theme.colors.primary }]}
             onPress={() => router.push('/search')}
           >
-            <Text style={styles.shopButtonText}>Start Shopping</Text>
+            <Text style={styles.shopButtonText}>Browse Furniture</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
