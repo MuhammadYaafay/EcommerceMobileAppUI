@@ -12,18 +12,7 @@ import {
   Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { 
-  ArrowLeft, 
-  Plus, 
-  Search, 
-  Edit3, 
-  Trash2,
-  Package,
-  Users,
-  DollarSign,
-  TrendingUp,
-  X
-} from 'lucide-react-native';
+import { ArrowLeft, Plus, Search, CreditCard as Edit3, Trash2, Package, Users, DollarSign, TrendingUp, X } from 'lucide-react-native';
 import { router } from 'expo-router';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useSelector, useDispatch } from 'react-redux';
@@ -44,8 +33,8 @@ export default function AdminScreen() {
     name: '',
     price: '',
     description: '',
-    category: 'Sofas',
-    image: 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg',
+    category: 'Electronics',
+    image: 'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg',
   });
 
   const filteredProducts = products.filter(product =>
@@ -95,8 +84,8 @@ export default function AdminScreen() {
       name: '',
       price: '',
       description: '',
-      category: 'Sofas',
-      image: 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg',
+      category: 'Electronics',
+      image: 'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg',
     });
 
     Toast.show({
@@ -145,8 +134,8 @@ export default function AdminScreen() {
       name: '',
       price: '',
       description: '',
-      category: 'Sofas',
-      image: 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg',
+      category: 'Electronics',
+      image: 'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg',
     });
 
     Toast.show({
@@ -294,8 +283,8 @@ export default function AdminScreen() {
                 name: '',
                 price: '',
                 description: '',
-                category: 'Sofas',
-                image: 'https://images.pexels.com/photos/1350789/pexels-photo-1350789.jpeg',
+                category: 'Electronics',
+                image: 'https://images.pexels.com/photos/1649771/pexels-photo-1649771.jpeg',
               });
             }}>
               <X size={24} color={theme.colors.text} />
@@ -352,7 +341,7 @@ export default function AdminScreen() {
             <View style={styles.inputGroup}>
               <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Category</Text>
               <View style={styles.categoryButtons}>
-                {['Sofas', 'Beds', 'Chairs', 'Tables', 'Storage', 'Decor'].map((category) => (
+                {['Electronics', 'Wearables', 'Accessories', 'Fashion', 'Home'].map((category) => (
                   <TouchableOpacity
                     key={category}
                     onPress={() => setNewProduct({ ...newProduct, category })}
@@ -383,7 +372,7 @@ export default function AdminScreen() {
               <Text style={[styles.inputLabel, { color: theme.colors.text }]}>Image URL</Text>
               <TextInput
                 style={[styles.input, { backgroundColor: theme.colors.surface, borderColor: theme.colors.border, color: theme.colors.text }]}
-                placeholder="https://images.pexels.com/photos/furniture.jpg"
+                placeholder="https://example.com/image.jpg"
                 placeholderTextColor={theme.colors.textSecondary}
                 value={newProduct.image}
                 onChangeText={(text) => setNewProduct({ ...newProduct, image: text })}
